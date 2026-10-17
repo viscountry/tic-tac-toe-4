@@ -16,12 +16,14 @@ Play against an AI opponent with two difficulty levels, or challenge a friend on
 ## How multiplayer works
 
 When you pick "Play with a friend":
+- **Enter your name** (up to 15 characters, emojis allowed!)
 - Creating a room gives you a 5-letter code to share
 - Your friend joins using that code or the invite link
 - Both browsers connect to the server via WebSocket
 - The server validates moves and broadcasts the board state to both players
-- If someone leaves, the room stays open so they can rejoin with the same code
-- When both players leave, the room gets deleted
+- **Reconnection:** If you disconnect (refresh page, network hiccup), you can rejoin the same room within 3 minutes and your game continues right where it left off
+- Rooms auto-delete 3 minutes after both players disconnect
+- See personalized messages like "Alpa's turn" and "Alex won!" instead of generic "Your turn"
 
 Playing against the robot runs entirely in your browser - no server needed.
 
@@ -96,7 +98,7 @@ The `--include=dev` flag is important because Vite and Tailwind are needed at bu
 
 - Rooms are stored in memory, so restarting the server wipes everything
 - Can only run on one server instance (rooms don't sync across multiple servers)
-- No auto-reconnect if your connection drops mid-game
+- Reconnection only works within 3 minutes of disconnect
 - Free Render tier goes to sleep after inactivity
 
 ## Want to customize it?
