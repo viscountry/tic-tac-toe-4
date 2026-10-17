@@ -1,14 +1,14 @@
 export default function Segmented({ options, value, onChange }) {
   return (
-    <div className="inline-flex rounded-lg border border-border bg-card p-1">
+    <div className="inline-flex rounded-lg border border-border bg-bg-secondary p-1">
       {options.map((opt) => (
         <button
           key={opt}
           onClick={() => onChange(opt)}
-          className={`rounded-md px-5 py-2 font-semibold text-sm transition-all ${
+          className={`rounded-md px-6 py-2 font-semibold transition-all ${
             value === opt
-              ? 'bg-primary/20 text-primary border border-primary/30'
-              : 'text-muted hover:text-ink hover:bg-card-hover'
+              ? 'bg-primary text-white'
+              : 'text-muted hover:text-ink'
           }`}
         >
           {opt.charAt(0).toUpperCase() + opt.slice(1)}
