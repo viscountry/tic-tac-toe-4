@@ -3,20 +3,29 @@ import Board from './Board.jsx';
 import Button from './Button.jsx';
 import Mark from './Mark.jsx';
 
-export default function GameView({ game, mode, notice, onLeave }) {
-  const { board, turn, you, result, opponentHere, code, play, rematch, rematchWaiting } = game;
+export default function GameView({ game, mode, notice, reconnectNotice, onLeave }) {
+  const { board, turn, you, result, opponentHere, code, play, rematch, rematchWaiting, yourName, opponentName } = game;
   const [copied, setCopied] = useState(false);
-  const foe = mode === 'bot' ? 'Robot' : 'Friend';
+  
+  // Use player names or fallback to generic labels
+  const myName = yourName || 'You';
+  const theirName = opponentName || (mode === 'bot' ? 'Robot' : 'Friend');
 
   let status;
   if (result) {
-    status = result.draw ? 'Draw!' : result.winner === you ? 'You won!' : `${foe} won`;
+    if (result.draw) {
+      status = 'Draw!';
+    } else if (result.winner === you) {
+      status = `${myName} won!`;
+    } else {
+      status = `${theirName} won!`;
+    }
   } else if (!opponentHere) {
-    status = 'Waiting...';
+    status = `${myName} waiting for opponent...`;
   } else if (turn === you) {
-    status = 'Your turn';
+    status = `${myName}'s turn`;
   } else {
-    status = mode === 'bot' ? 'Thinking...' : "Friend's turn";
+    status = mode === 'bot' ? 'Robot thinking...' : `${theirName}'s turn`;
   }
 
   const canPlay = !result && opponentHere && turn === you;
@@ -32,6 +41,7 @@ export default function GameView({ game, mode, notice, onLeave }) {
         <div className="flex items-center gap-2">
           <span className="text-xs sm:text-sm text-muted">Playing as</span>
           <Mark player={you} className="h-4 w-4 sm:h-5 sm:w-5" />
+          <span className="text-xs sm:text-sm font-medium">{myName}</span>
         </div>
         <Button variant="link" onClick={onLeave}>Leave</Button>
       </div>
@@ -45,6 +55,12 @@ export default function GameView({ game, mode, notice, onLeave }) {
             </div>
             <Button variant="link" onClick={copyLink}>{copied ? 'Copied!' : 'Copy'}</Button>
           </div>
+        </div>
+      )}
+
+      {reconnectNotice && (
+        <div className="mb-4 bg-card border border-primary rounded-lg p-3 animate-fade-in">
+          <p className="text-sm text-center font-medium">{reconnectNotice}</p>
         </div>
       )}
 

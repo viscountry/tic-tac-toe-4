@@ -1,0 +1,110 @@
+{
+  "verdict": "CHANGES_REQUESTED",
+  "findings": [
+    {
+      "severity": "HIGH",
+      "id": "HIGH-1",
+      "title": "Server leave() function already exists with different behavior",
+      "location": "Section 2.4, server/index.js lines 52-59",
+      "problem": "The design creates a new leave message handler and renames the existing leave() function to disconnect(), but the current leave() function deletes rooms immediately when both players are gone, preventing reconnection. The renamed disconnect() must preserve room and playerNames for 3 minutes.",
+      "fix": "Specify that disconnect() should: set player socket to null, set disconnectedAt timestamp, set bothDisconnectedAt if both disconnected, broadcast updated state, but NOT delete room, NOT send opponent_left, NOT reset game, NOT clear playerNames."
+    },
+    {
+      "severity": "HIGH",
+      "id": "HIGH-2",
+      "title": "Missing initialization of new room fields in create and join handlers",
+      "location": "Section 2.1 and 2.2",
+      "problem": "The join handler doesn't initialize playerNames, disconnectedAt, and bothDisconnectedAt fields. If a player joins a room created by old code, these fields will be undefined causing errors.",
+      "fix": "Add field initialization in join handler: if (!room.playerNames) room.playerNames = { X: null, O: null }; if (!room.disconnectedAt) room.disconnectedAt = { X: null, O: null }; if (room.bothDisconnectedAt === undefined) room.bothDisconnectedAt = null;"
+    },
+    {
+      "severity": "HIGH",
+      "id": "HIGH-3",
+      "title": "No specification for how reconnect handles slot with null name after explicit leave",
+      "location": "Section 2.3, reconnection matching logic",
+      "problem": "The design checks for (room.playerNames.X === null && room.disconnectedAt.X !== null) to detect left players, but disconnectedAt is cleared on explicit leave, making this check unreliable. The special error message 'That player has left the game' will never trigger correctly.",
+      "fix": "Remove the special check for left players. If playerNames.X is null, the name match naturally fails and returns 'You were not in this game.' Simplify the reconnect matching to only check for name match + empty slot, name match + occupied slot, and no match."
+    },
+    {
+      "severity": "HIGH",
+      "id": "HIGH-4",
+      "title": "useOnlineGame leave() function doesn't implement 100ms delay specified in GameView",
+      "location": "Section 5 (useOnlineGame) and Section 6 (GameView)",
+      "problem": "GameView calls leave() then waits 100ms before calling onLeave(), but the hook's leave() clears localStorage synchronously. If WebSocket closes before the timeout, the session is gone. Also, localStorage should be cleared after component unmounts, not before message is sent.",
+      "fix": "Move localStorage.removeItem from leave() function to the useEffect cleanup. Change leave() to only set intentionalClose.current and send the leave message. In the useEffect return, add: if (intentionalClose.current) { localStorage.removeItem('ttt4_session'); }"
+    },
+    {
+      "severity": "HIGH",
+      "id": "HIGH-5",
+      "title": "App.jsx auto-reconnect conflicts with URL invite logic",
+      "location": "Section 6 (App.jsx modified)",
+      "problem": "The session/invite check runs in useEffect after initial render, causing a flash where user sees home screen briefly before switching to friend or onlineGame screen.",
+      "fix": "Move entire session/invite check outside component into getInitialState() helper function that runs before render. Use returned values to initialize screen, intent, and notice state. Remove the useEffect entirely."
+    },
+    {
+      "severity": "MEDIUM",
+      "id": "MEDIUM-3",
+      "title": "Name normalization inconsistency in client vs server",
+      "location": "Section 4 (NameModal) and Section 3 (validateName)",
+      "problem": "Client-side NameModal only trims the name but server normalizes to lowercase. If player enters 'Alpa', client stores 'Alpa', server normalizes to 'alpa', then displays show 'alpa' instead of preserving user's capitalization.",
+      "fix": "Normalize on client side before sending to server: onSubmit(trimmed.toLowerCase()). Document that all names are stored lowercase. Alternative: store both display name and normalized name on server, but this is more complex."
+    },
+    {
+      "severity": "MEDIUM",
+      "id": "MEDIUM-5",
+      "title": "Missing error handling for invalid JSON in localStorage",
+      "location": "Section 6, App.jsx useEffect (moved to getInitialState per HIGH-5 fix)",
+      "problem": "Code parses localStorage with try-catch but doesn't validate that session has expected fields (roomCode, playerName). If user manually edits localStorage or old version stored different structure, code might access undefined properties.",
+      "fix": "Add validation after parsing: if (!session.roomCode || !session.playerName) { localStorage.removeItem('ttt4_session'); return; }"
+    },
+    {
+      "severity": "NIT",
+      "id": "NIT-1",
+      "title": "Typo in GameView status logic",
+      "location": "Section 6, GameView.jsx",
+      "problem": "Status messages have inconsistent capitalization: 'alpa's turn' (lowercase) vs 'Waiting for sarah' (capital W). Should be consistent.",
+      "fix": "Change to: status = opponentName === 'Friend' ? 'Waiting...' : `waiting for ${opponentName}`;"
+    },
+    {
+      "severity": "NIT",
+      "id": "NIT-2",
+      "title": "Console log format inconsistency",
+      "location": "Section 3, cleanup interval",
+      "problem": "Log tries to access rooms.get(code)?.bothDisconnectedAt after deleting the room, which returns undefined.",
+      "fix": "Calculate time before deletion: const room = rooms.get(code); const elapsedSeconds = Math.floor((now - (room?.bothDisconnectedAt || now)) / 1000); rooms.delete(code); console.log(`[Cleanup] Deleted room ${code} after ${elapsedSeconds}s of inactivity`);"
+    },
+    {
+      "severity": "NIT",
+      "id": "NIT-3",
+      "title": "Missing documentation for playerSymbol field in localStorage",
+      "location": "Section 6, App.jsx and Section 5, useOnlineGame",
+      "problem": "Design stores playerSymbol in localStorage but never reads it. Reconnect only needs code and name since server determines symbol by name matching.",
+      "fix": "Remove playerSymbol from localStorage.setItem call, or document why it's stored for future use."
+    },
+    {
+      "severity": "NIT",
+      "id": "NIT-4",
+      "title": "Mobile toast z-index might conflict with modals",
+      "location": "Section 6, OnlineGame.jsx",
+      "problem": "Reconnection toast has z-50, NameModal has z-50. If both appear simultaneously (unlikely but possible), they'll overlap at the same layer.",
+      "fix": "Make toast z-60 so it appears above modals: <div className=\"... z-60 ...\">"
+    },
+    {
+      "severity": "NIT",
+      "id": "NIT-5",
+      "title": "Missing aria-live for reconnection notices",
+      "location": "Section 6, OnlineGame.jsx",
+      "problem": "Reconnection toast doesn't have aria-live attribute, so screen readers won't announce the notification.",
+      "fix": "Add aria-live=\"polite\" to the toast div."
+    },
+    {
+      "severity": "NIT",
+      "id": "NIT-6",
+      "title": "Inconsistent intent structure in FriendLobby",
+      "location": "Section 6, FriendLobby.jsx",
+      "problem": "Design states 'FriendLobby will prompt for name' when URL invite conflicts with session, but doesn't specify how FriendLobby knows to auto-show the modal. Currently showNameModal only triggers on button clicks.",
+      "fix": "Clarify that 'prompt for name' means the modal appears when user clicks Join button (current flow). No auto-show needed. Update documentation to be clearer."
+    }
+  ],
+  "reviewDoc": "d:\\Feng\\FUN PROJECT\\Tic Tac Toe 4\\.agents\\tasks\\tictactoe4-player-names-reconnection\\design-review.md"
+}
