@@ -155,9 +155,19 @@ function handle(ws, msg) {
         }
       }
       
-      // Reconnection failed, treat as normal join
-      send(ws, { type: 'error', message: 'Could not reconnect. Joining as new player instead.' });
-      handle(ws, { type: 'join', code: msg.code, playerName });
+      // Reconnection failed, treat as normal join if room exists, otherwise error
+      const sym = !room.players.X ? 'X' : !room.players.O ? 'O' : null;
+      if (sym) {
+        // Room exists but our slot was taken or name didn't match - join as new player
+        room.players[sym] = ws;
+        room.playerNames[sym] = playerName;
+        room.disconnectTimes[sym] = null;
+        ws.room = room;
+        ws.sym = sym;
+        broadcast(room);
+      } else {
+        send(ws, { type: 'error', message: 'Room is full. Try creating a new game.' });
+      }
       break;
     }
     

@@ -1,10 +1,10 @@
 export default function Button({ children, variant = 'primary', onClick, disabled, ...props }) {
-  const baseClasses = 'rounded-lg px-5 sm:px-6 py-2.5 sm:py-3 font-semibold text-sm sm:text-base transition-all disabled:cursor-not-allowed disabled:opacity-50 active:scale-95';
-  
+  const baseClasses = 'rounded px-5 sm:px-6 py-2.5 sm:py-3 font-semibold text-sm sm:text-base transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-50';
+
   const variants = {
-    primary: 'bg-primary text-white active:bg-primary-hover disabled:active:bg-primary',
-    secondary: 'bg-card text-ink border border-border active:bg-bg-secondary disabled:active:bg-card',
-    link: 'text-secondary active:text-primary px-0 py-0 text-sm',
+    primary: 'bg-primary text-white border border-primary hover:bg-primary-hover',
+    secondary: 'bg-transparent text-ink border border-border hover:bg-card',
+    link: 'text-primary-light hover:text-primary-light/80 underline px-0 py-0 text-sm border-0',
   };
 
   return (
