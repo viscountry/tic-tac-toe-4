@@ -1,17 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #f8fafc;
-  --color-muted: #94a3b8;
-  --color-primary: #ef4444;
-  --color-primary-hover: #dc2626;
-  --color-secondary: #3b82f6;
-  --color-border: #1e293b;
-  --color-bg: #0f172a;
-  --color-bg-secondary: #1e293b;
-  --color-card: #1e293b;
+  /* Dark Developer Dashboard Colors */
+  --color-bg: #0f0f10;
+  --color-card: #18181b;
+  --color-card-header: #1c1c20;
+  --color-border: #2a2a2e;
+  --color-ink: #ffffff;
+  --color-muted: #8b8b93;
+  --color-primary: #3b1a8f;
+  --color-primary-hover: #4a2099;
+  --color-primary-light: #a78bfa;
+  --color-secondary: #22e07a;
+  --color-error: #ff5c5c;
   
-  --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  /* Fonts */
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Courier New', monospace;
 }
 
 * {
@@ -41,15 +46,28 @@ body {
 
 button {
   -webkit-tap-highlight-color: transparent;
-  transition: all 0.2s ease;
+  transition: all 150ms ease;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 input {
-  transition: all 0.2s ease;
+  transition: all 150ms ease;
+  font-family: var(--font-family-sans);
 }
 
+input:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 0;
+}
+
+/* Thin dark scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -57,25 +75,40 @@ input {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 4px;
+  background: #2a2a2e;
+  border-radius: 0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-bg-secondary);
+  background: #3a3a3e;
 }
 
+/* Animations */
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: translateY(-4px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
   }
 }
 
 .animate-fade-in {
-  animation: fade-in 0.2s ease-out;
+  animation: fade-in 150ms ease-out;
+}
+
+/* Monospace numbers and board marks */
+.font-mono {
+  font-family: var(--font-family-mono);
+}
+
+/* Small uppercase labels */
+.label-small {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  font-weight: 500;
 }

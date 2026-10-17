@@ -39,19 +39,19 @@ export default function GameView({ game, mode, notice, reconnectNotice, onLeave 
     <section className="min-h-screen flex flex-col px-4 py-6 sm:py-8">
       <div className="flex items-center justify-between mb-4 sm:mb-6">
         <div className="flex items-center gap-2">
-          <span className="text-xs sm:text-sm text-muted">Playing as</span>
+          <span className="label-small">Playing as</span>
           <Mark player={you} className="h-4 w-4 sm:h-5 sm:w-5" />
-          <span className="text-xs sm:text-sm font-medium">{myName}</span>
+          <span className="text-xs sm:text-sm font-medium font-mono">{myName}</span>
         </div>
         <Button variant="link" onClick={onLeave}>Leave</Button>
       </div>
 
       {mode === 'online' && (
-        <div className="mb-4 sm:mb-6 bg-card rounded-xl p-4 border border-border">
+        <div className="mb-4 sm:mb-6 bg-card rounded p-4 border border-border">
           <div className="flex items-center justify-between gap-2">
             <div>
-              <div className="text-xs text-muted mb-1">Room Code</div>
-              <div className="text-xl sm:text-2xl font-bold tracking-widest">{code}</div>
+              <div className="label-small mb-2">Room Code</div>
+              <div className="text-xl sm:text-2xl font-mono font-bold tracking-wider">{code}</div>
             </div>
             <Button variant="link" onClick={copyLink}>{copied ? 'Copied!' : 'Copy'}</Button>
           </div>
@@ -59,8 +59,8 @@ export default function GameView({ game, mode, notice, reconnectNotice, onLeave 
       )}
 
       {reconnectNotice && (
-        <div className="mb-4 bg-card border border-primary rounded-lg p-3 animate-fade-in">
-          <p className="text-sm text-center font-medium">{reconnectNotice}</p>
+        <div className="mb-4 bg-card-header border border-secondary rounded p-3 animate-fade-in">
+          <p className="text-sm text-center font-medium font-mono text-secondary">{reconnectNotice}</p>
         </div>
       )}
 
@@ -81,8 +81,8 @@ export default function GameView({ game, mode, notice, reconnectNotice, onLeave 
       )}
       
       {notice && (
-        <div className="mt-4 bg-card border border-border rounded-lg p-3">
-          <p className="text-xs sm:text-sm text-muted">{notice}</p>
+        <div className="mt-4 bg-card border border-border rounded p-3">
+          <p className="text-xs sm:text-sm text-muted font-mono">{notice}</p>
         </div>
       )}
     </section>
