@@ -43,7 +43,7 @@ export default function Home({ onNavigate }) {
       {/* Decorative elements */}
       <div className="mt-16 flex gap-3 items-center justify-center text-muted text-sm">
         <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-        <span>Made with 💖</span>
+        <span>Onve</span>
         <span className="w-2 h-2 bg-secondary rounded-full animate-pulse delay-75" />
       </div>
     </section>
