@@ -32,7 +32,7 @@ export default function Home({ onNavigate }) {
       </div>
       
       <div className="mt-16 text-muted text-sm">
-        Onve
+        Made by Onve
       </div>
     </section>
   );
