@@ -15,7 +15,7 @@ export default function App() {
   const [notice, setNotice] = useState('');
 
   return (
-    <main className="mx-auto w-full max-w-[540px] px-[18px] pt-9 pb-14">
+    <main className="min-h-screen mx-auto w-full max-w-[600px] px-4 sm:px-6 pt-6 sm:pt-12 pb-12 sm:pb-16">
       {screen === 'home' && <Home onNavigate={setScreen} />}
       {screen === 'bot' && (
         <BotSetup onBack={() => setScreen('home')} onStart={(o) => { setBotOpts(o); setScreen('botGame'); }} />
