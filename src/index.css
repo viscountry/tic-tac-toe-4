@@ -16,6 +16,11 @@
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  touch-action: manipulation;
 }
 
 body {
@@ -26,13 +31,20 @@ body {
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
 }
 
 #root {
   min-height: 100vh;
+  min-height: -webkit-fill-available;
 }
 
-button, a, input {
+button {
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s ease;
+}
+
+input {
   transition: all 0.2s ease;
 }
 
