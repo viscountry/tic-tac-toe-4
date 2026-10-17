@@ -3,7 +3,7 @@ import Mark from './Mark.jsx';
 export default function Board({ board, winCells = [], canPlay, onPlay }) {
   return (
     <div className="inline-block">
-      <div className="grid grid-cols-7 gap-[3px] bg-muted/30 rounded-lg p-[3px]">
+      <div className="grid grid-cols-7 gap-[2px] bg-card-header rounded p-[2px]">
         {board.map((cell, i) => {
           const isWin = winCells.includes(i);
           const canClick = canPlay && !cell;

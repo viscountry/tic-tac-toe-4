@@ -20,27 +20,47 @@ export function useOnlineGame(intent, onFatal) {
       const playerName = localStorage.getItem('playerName') || 'Player';
       const sessionData = localStorage.getItem('gameSession');
       
-      // Try to reconnect to existing game first
-      if (sessionData && intent.type === 'join') {
+      // Check if we should attempt reconnection
+      let shouldReconnect = false;
+      let reconnectCode = null;
+      let reconnectSymbol = null;
+      
+      if (sessionData) {
         try {
           const session = JSON.parse(sessionData);
-          // If we have a saved session and we're joining the same room, attempt reconnection
-          if (session.code === intent.code) {
-            ws.send(JSON.stringify({
-              type: 'reconnect',
-              code: session.code,
-              playerName: playerName,
-              previousSymbol: session.symbol
-            }));
-            return;
+          const timeSinceDisconnect = Date.now() - (session.timestamp || 0);
+          
+          // If disconnected less than 3 minutes ago, try to reconnect
+          if (timeSinceDisconnect < 3 * 60 * 1000) {
+            // If joining the same room as saved session, reconnect
+            if (intent.type === 'join' && session.code === intent.code) {
+              shouldReconnect = true;
+              reconnectCode = session.code;
+              reconnectSymbol = session.symbol;
+            }
+            // If creating room but have a recent session, try to reconnect to it instead
+            else if (intent.type === 'create' && session.code) {
+              shouldReconnect = true;
+              reconnectCode = session.code;
+              reconnectSymbol = session.symbol;
+            }
           }
         } catch (e) {
-          // Invalid session data, proceed with normal join
+          // Invalid session data, proceed with normal create/join
         }
       }
       
-      // Normal create/join flow
-      ws.send(JSON.stringify({ ...intent, playerName }));
+      if (shouldReconnect && reconnectCode) {
+        ws.send(JSON.stringify({
+          type: 'reconnect',
+          code: reconnectCode,
+          playerName: playerName,
+          previousSymbol: reconnectSymbol
+        }));
+      } else {
+        // Normal create/join flow
+        ws.send(JSON.stringify({ ...intent, playerName }));
+      }
     };
     
     ws.onmessage = (e) => {
@@ -74,7 +94,7 @@ export function useOnlineGame(intent, onFatal) {
     
     ws.onclose = () => {
       if (!closedByUs) {
-        // Clear session on disconnect, will try to reconnect if they come back
+        // Don't clear session - keep it for reconnection attempts
         fatal.current('Connection lost. Create or join a room to try again.');
       }
     };

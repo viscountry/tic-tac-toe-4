@@ -9,9 +9,10 @@ const getInviteCode = () => (new URLSearchParams(location.search).get('room') ||
 
 export default function App() {
   const inviteCode = getInviteCode();
-  const [screen, setScreen] = useState(inviteCode ? 'onlineGame' : 'home');
+  // If there's an invite code, go to friend lobby (not straight to game) so they can enter their name
+  const [screen, setScreen] = useState(inviteCode ? 'friend' : 'home');
   const [botOpts, setBotOpts] = useState({ level: 'hard', side: 'X' });
-  const [intent, setIntent] = useState(inviteCode ? { type: 'join', code: inviteCode } : null);
+  const [intent, setIntent] = useState(null);
   const [notice, setNotice] = useState('');
 
   return (
