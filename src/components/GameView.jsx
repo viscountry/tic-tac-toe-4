@@ -11,10 +11,10 @@ export default function GameView({ game, mode, notice, onLeave }) {
   const foe = mode === 'bot' ? 'The robot' : 'Your friend';
 
   let status;
-  if (result) status = result.draw ? '🤝 Draw! Board is full.' : result.winner === you ? '🎉 You won! Four in a row!' : `${foe === 'The robot' ? '🤖' : '😔'} ${foe} won this round.`;
-  else if (!opponentHere) status = '⏳ Waiting for your friend...';
-  else if (turn === you) status = '🎯 Your turn!';
-  else status = mode === 'bot' ? '🤔 Robot is thinking...' : "⏱️ Friend's turn...";
+  if (result) status = result.draw ? 'Draw! Board is full.' : result.winner === you ? 'You won!' : `${foe} won this round.`;
+  else if (!opponentHere) status = 'Waiting for your friend...';
+  else if (turn === you) status = 'Your turn';
+  else status = mode === 'bot' ? 'Robot is thinking...' : "Friend's turn...";
 
   const canPlay = !result && opponentHere && turn === you;
 
@@ -43,7 +43,7 @@ export default function GameView({ game, mode, notice, onLeave }) {
               <strong className="text-2xl sm:text-3xl tracking-[0.3em] font-black text-ink bg-bg-tertiary px-4 py-1 rounded-lg">{code}</strong>
             </div>
             <Button variant="link" onClick={copyLink}>
-              {copied ? '✓ Copied!' : '📋 Copy Link'}
+              {copied ? 'Copied!' : 'Copy Link'}
             </Button>
           </div>
         </div>
@@ -65,7 +65,7 @@ export default function GameView({ game, mode, notice, onLeave }) {
       {result && (
         <div className="flex justify-center">
           <Button onClick={rematch} disabled={rematchWaiting}>
-            {mode === 'bot' ? '🔄 Play Again' : rematchWaiting ? '⏳ Waiting for friend...' : '🔄 Rematch'}
+            {mode === 'bot' ? 'Play Again' : rematchWaiting ? 'Waiting for friend...' : 'Rematch'}
           </Button>
         </div>
       )}

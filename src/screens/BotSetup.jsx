@@ -8,37 +8,34 @@ export default function BotSetup({ onBack, onStart }) {
 
   return (
     <section className="max-w-lg mx-auto">
-      <Button variant="link" onClick={onBack}>← Back to Home</Button>
+      <Button variant="link" onClick={onBack}>← Back</Button>
       
-      <div className="mt-6 mb-8 text-center">
-        <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-2 bg-gradient-to-r from-accent to-secondary bg-clip-text text-transparent">
-          🤖 Play the Robot
+      <div className="mt-6 mb-8">
+        <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-2">
+          Play the Robot
         </h2>
-        <p className="text-muted">Choose your difficulty and side</p>
+        <p className="text-muted">Choose your settings</p>
       </div>
 
       <div className="space-y-6">
-        {/* Difficulty Card */}
-        <div className="bg-card rounded-2xl p-6 border-2 border-border shadow-lg">
-          <label className="mb-3 block text-sm font-bold text-muted uppercase tracking-wide">Difficulty Level</label>
+        <div className="bg-card rounded-2xl p-6 border-2 border-border">
+          <label className="mb-3 block text-sm font-bold text-muted uppercase tracking-wide">Difficulty</label>
           <Segmented options={['easy', 'hard']} value={level} onChange={setLevel} />
           <p className="mt-3 text-xs text-muted">
-            {level === 'easy' ? '😊 Good for beginners' : '🧠 Minimax AI with alpha-beta pruning'}
+            {level === 'easy' ? 'Casual play' : 'Advanced AI'}
           </p>
         </div>
 
-        {/* Side Selection Card */}
-        <div className="bg-card rounded-2xl p-6 border-2 border-border shadow-lg">
-          <label className="mb-3 block text-sm font-bold text-muted uppercase tracking-wide">Play As</label>
+        <div className="bg-card rounded-2xl p-6 border-2 border-border">
+          <label className="mb-3 block text-sm font-bold text-muted uppercase tracking-wide">Play as</label>
           <Segmented options={['X', 'O']} value={side} onChange={setSide} />
           <p className="mt-3 text-xs text-muted">
-            {side === 'X' ? '🔴 You go first!' : '🔵 Robot starts first'}
+            {side === 'X' ? 'You go first' : 'Robot goes first'}
           </p>
         </div>
 
-        {/* Start Button */}
         <Button onClick={() => onStart({ level, side })}>
-          🚀 Start Game
+          Start Game
         </Button>
       </div>
     </section>
