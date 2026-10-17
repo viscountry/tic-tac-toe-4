@@ -154,6 +154,38 @@ If you prefer using Render Blueprints:
 
 ## 📋 Project Setup Changelog
 
+### October 1, 2026 - Dark Mode Marvel UI + Mobile Optimization ✨
+
+**Major UI/UX Overhaul:**
+- 🌙 **Dark Mode Theme** - Marvel-inspired color scheme with gradients
+- 📱 **Mobile-First Responsive Design** - Optimized for all screen sizes
+- ✨ **Animated Background** - Floating gradient orbs for depth
+- 🎨 **Enhanced Visual Hierarchy** - Better spacing, shadows, and borders
+- 🎯 **Improved Board Design** - Larger tap targets, glowing win animations
+- 💎 **Premium Components** - Cards with gradients, hover effects, and shadows
+- 🎭 **Emoji Status Messages** - More engaging game feedback
+- 🔥 **Smooth Animations** - Scale, glow, and transition effects
+- 🎮 **Better Game Controls** - Larger buttons, clearer actions
+
+**Color Palette:**
+- Primary Red: `#ef4444` (X marks, win states, CTAs)
+- Secondary Blue: `#3b82f6` (O marks, links)
+- Accent Purple: `#8b5cf6` (decorative elements)
+- Background: Dark gradient `#0f172a` → `#1e293b`
+- Cards: `#1e293b` with border `#334155`
+
+**Component Updates:**
+- ✏️ `src/index.css` - Dark theme, animations, custom scrollbar
+- ✏️ `src/components/Button.jsx` - Gradient effects, shine animation
+- ✏️ `src/components/Board.jsx` - Responsive sizing, win glow effects
+- ✏️ `src/components/Mark.jsx` - Thicker strokes, drop shadows
+- ✏️ `src/components/GameView.jsx` - Card layouts, emoji status
+- ✏️ `src/components/Segmented.jsx` - Gradient active state
+- ✏️ `src/screens/Home.jsx` - Hero section with gradient title
+- ✏️ `src/screens/BotSetup.jsx` - Card-based settings
+- ✏️ `src/screens/FriendLobby.jsx` - Visual room creation/joining
+- ✏️ `src/App.jsx` - Adjusted container width and padding
+
 ### October 1, 2026 - Initial Setup for Render Deployment
 
 **Files Created:**
