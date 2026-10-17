@@ -1,9 +1,15 @@
 import Button from '../components/Button.jsx';
+import Penguin from '../components/Penguin.jsx';
 
 export default function Home({ onNavigate }) {
   return (
     <section className="min-h-[80vh] flex flex-col items-center justify-center text-center px-4">
       <div className="mb-8">
+        {/* Penguin Logo */}
+        <div className="flex justify-center mb-6">
+          <Penguin className="w-20 h-20 sm:w-24 sm:h-24" />
+        </div>
+        
         <h1 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight mb-4 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
           TIC-TAC-FOUR
         </h1>
