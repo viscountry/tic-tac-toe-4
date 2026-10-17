@@ -11,26 +11,24 @@ export default function BotSetup({ onBack, onStart }) {
       <Button variant="link" onClick={onBack}>← Back</Button>
       
       <div className="mt-6 mb-8">
-        <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-2">
-          Play the Robot
-        </h2>
-        <p className="text-muted">Choose your settings</p>
+        <h2 className="text-3xl font-bold tracking-tight mb-2">Play the Robot</h2>
+        <p className="text-sm text-muted font-mono">Configure game settings</p>
       </div>
 
-      <div className="space-y-6">
-        <div className="bg-card rounded-2xl p-6 border-2 border-border">
-          <label className="mb-3 block text-sm font-bold text-muted uppercase tracking-wide">Difficulty</label>
+      <div className="space-y-4">
+        <div className="bg-card rounded-lg p-5 border border-border">
+          <label className="mb-3 block text-xs font-semibold text-muted uppercase tracking-wider">Difficulty</label>
           <Segmented options={['easy', 'hard']} value={level} onChange={setLevel} />
-          <p className="mt-3 text-xs text-muted">
-            {level === 'easy' ? 'Casual play' : 'Advanced AI'}
+          <p className="mt-3 text-xs text-muted font-mono">
+            {level === 'easy' ? '> Casual mode' : '> Advanced AI'}
           </p>
         </div>
 
-        <div className="bg-card rounded-2xl p-6 border-2 border-border">
-          <label className="mb-3 block text-sm font-bold text-muted uppercase tracking-wide">Play as</label>
+        <div className="bg-card rounded-lg p-5 border border-border">
+          <label className="mb-3 block text-xs font-semibold text-muted uppercase tracking-wider">Side</label>
           <Segmented options={['X', 'O']} value={side} onChange={setSide} />
-          <p className="mt-3 text-xs text-muted">
-            {side === 'X' ? 'You go first' : 'Robot goes first'}
+          <p className="mt-3 text-xs text-muted font-mono">
+            {side === 'X' ? '> You start first' : '> Robot starts first'}
           </p>
         </div>
 

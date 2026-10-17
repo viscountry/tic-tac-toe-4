@@ -11,10 +11,10 @@ export default function GameView({ game, mode, notice, onLeave }) {
   const foe = mode === 'bot' ? 'The robot' : 'Your friend';
 
   let status;
-  if (result) status = result.draw ? 'Draw! Board is full.' : result.winner === you ? 'You won!' : `${foe} won this round.`;
-  else if (!opponentHere) status = 'Waiting for your friend...';
-  else if (turn === you) status = 'Your turn';
-  else status = mode === 'bot' ? 'Robot is thinking...' : "Friend's turn...";
+  if (result) status = result.draw ? '> Draw' : result.winner === you ? '> You won' : `> ${foe} won`;
+  else if (!opponentHere) status = '> Waiting...';
+  else if (turn === you) status = '> Your turn';
+  else status = mode === 'bot' ? '> Robot thinking...' : "> Friend's turn";
 
   const canPlay = !result && opponentHere && turn === you;
 
@@ -26,9 +26,9 @@ export default function GameView({ game, mode, notice, onLeave }) {
   return (
     <section className="pb-8">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4 bg-card rounded-xl p-4 border border-border">
-        <span className="flex items-center gap-2 font-bold text-sm sm:text-base">
-          You are <Mark player={you} className="h-5 w-5 sm:h-6 sm:w-6" />
+      <div className="flex items-center justify-between mb-4 bg-card rounded-lg p-4 border border-border">
+        <span className="flex items-center gap-2 font-semibold text-sm">
+          Playing as <Mark player={you} className="h-5 w-5" />
           <span className={you === 'X' ? 'text-primary' : 'text-secondary'}>{you}</span>
         </span>
         <Button variant="link" onClick={onLeave}>← Leave</Button>
@@ -36,22 +36,22 @@ export default function GameView({ game, mode, notice, onLeave }) {
 
       {/* Room code for online mode */}
       {mode === 'online' && (
-        <div className="mb-4 bg-gradient-to-r from-card to-card-hover rounded-xl p-4 border border-border">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div className="flex items-center gap-2 text-sm">
+        <div className="mb-4 bg-card rounded-lg p-4 border border-border">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-xs font-mono">
               <span className="text-muted">Room</span>
-              <strong className="text-2xl sm:text-3xl tracking-[0.3em] font-black text-ink bg-bg-tertiary px-4 py-1 rounded-lg">{code}</strong>
+              <strong className="text-xl tracking-[0.3em] font-bold text-ink bg-bg-secondary px-3 py-1 rounded">{code}</strong>
             </div>
             <Button variant="link" onClick={copyLink}>
-              {copied ? 'Copied!' : 'Copy Link'}
+              {copied ? 'Copied' : 'Copy'}
             </Button>
           </div>
         </div>
       )}
 
       {/* Status */}
-      <div className="my-6 text-center">
-        <p className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight min-h-[2rem]" aria-live="polite">
+      <div className="my-6">
+        <p className="text-lg font-bold font-mono" aria-live="polite">
           {status}
         </p>
       </div>
@@ -65,15 +65,15 @@ export default function GameView({ game, mode, notice, onLeave }) {
       {result && (
         <div className="flex justify-center">
           <Button onClick={rematch} disabled={rematchWaiting}>
-            {mode === 'bot' ? 'Play Again' : rematchWaiting ? 'Waiting for friend...' : 'Rematch'}
+            {mode === 'bot' ? 'Play Again' : rematchWaiting ? 'Waiting...' : 'Rematch'}
           </Button>
         </div>
       )}
       
       {/* Notice */}
       {notice && (
-        <div role="status" className="mt-4 text-center bg-card-hover border border-border rounded-xl p-4">
-          <p className="text-muted text-sm">{notice}</p>
+        <div role="status" className="mt-4 bg-card-hover border border-border rounded-lg p-3">
+          <p className="text-xs text-muted font-mono">{notice}</p>
         </div>
       )}
     </section>

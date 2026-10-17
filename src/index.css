@@ -1,28 +1,26 @@
 @import "tailwindcss";
 
 @theme {
-  /* Dark Marvel-inspired theme */
-  --color-ink: #ffffff;
+  /* Darker terminal-inspired theme with Marvel colors */
+  --color-ink: #e2e8f0;
   --color-muted: #94a3b8;
   --color-primary: #ef4444;
   --color-primary-hover: #dc2626;
   --color-secondary: #3b82f6;
   --color-accent: #8b5cf6;
-  --color-border: #334155;
-  --color-bg: #0f172a;
-  --color-bg-secondary: #1e293b;
-  --color-bg-tertiary: #334155;
-  --color-card: #1e293b;
-  --color-card-hover: #334155;
+  --color-border: #27272a;
+  --color-bg: #09090b;
+  --color-bg-secondary: #18181b;
+  --color-bg-tertiary: #27272a;
+  --color-card: #18181b;
+  --color-card-hover: #27272a;
   
-  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-family-sans: 'Inter', 'SF Mono', 'Consolas', monospace;
   
-  /* Shadows for depth */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.6), 0 8px 10px -6px rgb(0 0 0 / 0.6);
-  --shadow-glow: 0 0 20px rgba(239, 68, 68, 0.3);
+  /* Subtle shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.6);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.7);
 }
 
 * {
@@ -33,60 +31,37 @@ body {
   margin: 0;
   padding: 0;
   font-family: var(--font-family-sans);
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  background: var(--color-bg);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* Animated background effect */
-body::before {
-  content: '';
-  position: fixed;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 20% 50%, rgba(239, 68, 68, 0.05) 0%, transparent 50%),
-              radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-              radial-gradient(circle at 40% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
-  animation: float 20s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 0;
-}
-
-@keyframes float {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  33% { transform: translate(30px, -30px) rotate(120deg); }
-  66% { transform: translate(-20px, 20px) rotate(240deg); }
-}
-
 #root {
   min-height: 100vh;
   position: relative;
-  z-index: 1;
 }
 
-/* Smooth transitions for all interactive elements */
+/* Smooth transitions */
 button, a, input {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s ease;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - thinner, more subtle */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-secondary);
+  background: var(--color-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-bg-tertiary);
-  border-radius: 4px;
+  background: var(--color-border);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-border);
+  background: var(--color-bg-tertiary);
 }
